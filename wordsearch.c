@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <ctype.h>
 
-void printAnswer(const char puzzle[][50], size_t size);
+void printAnswer(/*const*/ char puzzle[][50], size_t size);
+/*void findWord(char puzzle[][50], char *word);*/
 
 int main(void)
 {
@@ -12,8 +13,9 @@ int main(void)
     size_t row = 0;
     size_t column = 0;
     char letter;
+    char *word;
 
-    /* Read in Word Search */
+    /* Read in Word Search Grid */
     do
     {
         column = 0;
@@ -29,11 +31,26 @@ int main(void)
         }while(letter != '\n');
         row++;
     }while(row < size);
+
+    /* Print Solved Word Search */
     printAnswer(puzzle, size);
+
+    /* Read in Words */
+    do
+    {
+        word = fgets(word, size, stdin);
+        if (word != NULL)
+        {
+            printf("%s", word);
+        }
+    }while(word != NULL);
+
+    /* Print Solved Word Search */
+/*    printAnswer(puzzle, size);*/
     return 0;
 }
 
-void printAnswer(const char puzzle[][50], size_t size)
+void printAnswer(/*const*/ char puzzle[][50], size_t size)
 {
     size_t row;
     size_t column;
