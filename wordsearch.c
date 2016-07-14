@@ -51,14 +51,7 @@ int main(void)
         if (word != NULL)
         {
             printf("%s", word);
-            for (row = 0; row < size; ++row)
-            {
-                for (column = 0; column < size; ++column)
-                {
-                    findWord(keep, puzzle, word, size);
-
-                }
-            }
+            findWord(keep, puzzle, word, size);
         }
     }while(word != NULL);
 
