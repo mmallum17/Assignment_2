@@ -37,6 +37,8 @@ void printAnswer(const char puzzle[][50], size_t size)
 {
     size_t row;
     size_t column;
+    puts("");
+    puts("");
     for(row = 0; row < size; ++row)
     {
         for (column = 0; column < size; ++column)
