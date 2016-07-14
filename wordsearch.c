@@ -41,16 +41,13 @@ int main(void)
         row++;
     }while(row < size);
 
-    /* Print Solved Word Search */
-    printAnswer(keep, puzzle, size);
-
     /* Read in Words */
     do
     {
         word = fgets(word,size, stdin);
         if (word != NULL)
         {
-            printf("%s", word);
+/*            printf("%s", word);*/
             findWord(keep, puzzle, word, size);
         }
     }while(word != NULL);
@@ -97,13 +94,14 @@ void findWord(int keep [][50], char puzzle[][50], char *word, size_t size)
             checkRightUp(keep, puzzle, word, row, column, 0, size);
             checkLeftDown(keep, puzzle, word, row, column, 0, size);
             checkLeftUp(keep, puzzle, word, row, column, 0, size);
+            /*printAnswer(keep, puzzle, size);*/
         }
     }
 }
 
 int checkRight(int keep [][50], char puzzle[][50], char *word, int row, int column, int count, size_t size)
 {
-    if(word[count] == '/0')
+    if(!isupper(word[count]))
     {
         return 1;
     }
@@ -115,11 +113,15 @@ int checkRight(int keep [][50], char puzzle[][50], char *word, int row, int colu
     if(word[count] == puzzle[row][column])
     {
         /* Check going right */
-        if (checkLeft(keep, puzzle, word, row, column + 1, count + 1, size))
+        if (checkRight(keep, puzzle, word, row, column + 1, count + 1, size))
         {
             keep[row][column] = 1;
+            return 1;
         }
-        return 1;
+        else
+        {
+            return 0;
+        }
     }
     else
     {
@@ -128,33 +130,55 @@ int checkRight(int keep [][50], char puzzle[][50], char *word, int row, int colu
 }
 int checkLeft(int keep [][50], char puzzle[][50], char *word, int row, int column, int count, size_t size)
 {
-    if(word[count] == '/0')
+/*    printf("%d\n",word[count]);
+    if(isspace(word[count]))
     {
+        puts("SPACE");
+    }
+    if(!(islower(word[count])|| isupper(word[count])))
+    {
+        puts("NOT LETTER");
+    }
+    if(word[count] == '\0')*/
+    if(!isupper(word[count]))
+    {
+/*        printf("HAPPENED\n");*/
         return 1;
     }
     else if(row >= size || row < 0 || column < 0 || column >= size) /* if out of bounds */
     {
+/*        printf("OUT OF BOUNDS");*/
         return 0;
     }
 
     if(word[count] == puzzle[row][column])
     {
+/*        printf("LETTER = LETTER\n");*/
         /* Check going left */
         if (checkLeft(keep, puzzle, word, row, column - 1, count + 1, size))
         {
+/*            puts("SET TO ONE");*/
             keep[row][column] = 1;
+            return 1;
         }
-        return 1;
+        else
+        {
+/*            puts("FIRST");*/
+            return 0;
+        }
     }
     else
     {
+/*        puts("SECOND");*/
         return 0;
     }
 }
 int checkDown(int keep [][50], char puzzle[][50], char *word, int row, int column, int count, size_t size)
 {
-    if(word[count] == '/0')
+/*    printf("Down: %d\n", word[count]);*/
+    if(!isupper(word[count]))
     {
+/*        puts("YAY");*/
         return 1;
     }
     else if(row >= size || row < 0 || column < 0 || column >= size) /* if out of bounds */
@@ -165,11 +189,16 @@ int checkDown(int keep [][50], char puzzle[][50], char *word, int row, int colum
     if(word[count] == puzzle[row][column])
     {
         /* Check going down */
-        if (checkLeft(keep, puzzle, word, row - 1, column, count + 1, size))
+        if (checkDown(keep, puzzle, word, row + 1, column, count + 1, size))
         {
             keep[row][column] = 1;
+            return 1;
         }
-        return 1;
+        else
+        {
+            return 0;
+        }
+
     }
     else
     {
@@ -178,7 +207,7 @@ int checkDown(int keep [][50], char puzzle[][50], char *word, int row, int colum
 }
 int checkUp(int keep [][50], char puzzle[][50], char *word, int row, int column, int count, size_t size)
 {
-    if(word[count] == '/0')
+    if(!isupper(word[count]))
     {
         return 1;
     }
@@ -190,11 +219,15 @@ int checkUp(int keep [][50], char puzzle[][50], char *word, int row, int column,
     if(word[count] == puzzle[row][column])
     {
         /* Check going up */
-        if (checkLeft(keep, puzzle, word, row + 1, column, count + 1, size))
+        if (checkUp(keep, puzzle, word, row - 1, column, count + 1, size))
         {
             keep[row][column] = 1;
+            return 1;
         }
-        return 1;
+        else
+        {
+            return 0;
+        }
     }
     else
     {
@@ -203,7 +236,7 @@ int checkUp(int keep [][50], char puzzle[][50], char *word, int row, int column,
 }
 int checkRightDown(int keep [][50], char puzzle[][50], char *word, int row, int column, int count, size_t size)
 {
-    if(word[count] == '/0')
+    if(!isupper(word[count]))
     {
         return 1;
     }
@@ -215,11 +248,15 @@ int checkRightDown(int keep [][50], char puzzle[][50], char *word, int row, int 
     if(word[count] == puzzle[row][column])
     {
         /* Check going right and down */
-        if (checkLeft(keep, puzzle, word, row - 1, column + 1, count + 1, size))
+        if (checkRightDown(keep, puzzle, word, row + 1, column + 1, count + 1, size))
         {
             keep[row][column] = 1;
+            return 1;
         }
-        return 1;
+        else
+        {
+            return 0;
+        }
     }
     else
     {
@@ -228,7 +265,7 @@ int checkRightDown(int keep [][50], char puzzle[][50], char *word, int row, int 
 }
 int checkRightUp(int keep [][50], char puzzle[][50], char *word, int row, int column, int count, size_t size)
 {
-    if(word[count] == '/0')
+    if(!isupper(word[count]))
     {
         return 1;
     }
@@ -240,11 +277,15 @@ int checkRightUp(int keep [][50], char puzzle[][50], char *word, int row, int co
     if(word[count] == puzzle[row][column])
     {
         /* Check going right and up */
-        if (checkLeft(keep, puzzle, word, row + 1, column + 1, count + 1, size))
+        if (checkRightUp(keep, puzzle, word, row - 1, column + 1, count + 1, size))
         {
             keep[row][column] = 1;
+            return 1;
         }
-        return 1;
+        else
+        {
+            return 0;
+        }
     }
     else
     {
@@ -253,7 +294,7 @@ int checkRightUp(int keep [][50], char puzzle[][50], char *word, int row, int co
 }
 int checkLeftDown(int keep [][50], char puzzle[][50], char *word, int row, int column, int count, size_t size)
 {
-    if(word[count] == '/0')
+    if(!isupper(word[count]))
     {
         return 1;
     }
@@ -265,11 +306,15 @@ int checkLeftDown(int keep [][50], char puzzle[][50], char *word, int row, int c
     if(word[count] == puzzle[row][column])
     {
         /* Check going left and down */
-        if (checkLeft(keep, puzzle, word, row - 1, column - 1, count + 1, size))
+        if (checkLeftDown(keep, puzzle, word, row + 1, column - 1, count + 1, size))
         {
             keep[row][column] = 1;
+            return 1;
         }
-        return 1;
+        else
+        {
+            return 0;
+        }
     }
     else
     {
@@ -278,7 +323,7 @@ int checkLeftDown(int keep [][50], char puzzle[][50], char *word, int row, int c
 }
 int checkLeftUp(int keep [][50], char puzzle[][50], char *word, int row, int column, int count, size_t size)
 {
-    if(word[count] == '/0')
+    if(!isupper(word[count]))
     {
         return 1;
     }
@@ -290,11 +335,15 @@ int checkLeftUp(int keep [][50], char puzzle[][50], char *word, int row, int col
     if(word[count] == puzzle[row][column])
     {
         /* Check going left and up */
-        if (checkLeft(keep, puzzle, word, row + 1, column - 1, count + 1, size))
+        if (checkLeftUp(keep, puzzle, word, row - 1, column - 1, count + 1, size))
         {
             keep[row][column] = 1;
+            return 1;
         }
-        return 1;
+        else
+        {
+            return 0;
+        }
     }
     else
     {
