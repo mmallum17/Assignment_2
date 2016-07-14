@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 void printAnswer(/*const*/ char puzzle[][50], size_t size);
-/*void findWord(char puzzle[][50], char *word);*/
+void findWord(char puzzle[][50], char *word);
 
 int main(void)
 {
@@ -38,15 +38,16 @@ int main(void)
     /* Read in Words */
     do
     {
-        word = fgets(word, size, stdin);
+        word = fgets(word,size, stdin);
         if (word != NULL)
         {
             printf("%s", word);
+            findWord(puzzle, word);
         }
     }while(word != NULL);
 
     /* Print Solved Word Search */
-/*    printAnswer(puzzle, size);*/
+    printAnswer(puzzle, size);
     return 0;
 }
 
@@ -54,8 +55,6 @@ void printAnswer(/*const*/ char puzzle[][50], size_t size)
 {
     size_t row;
     size_t column;
-    puts("");
-    puts("");
     for(row = 0; row < size; ++row)
     {
         for (column = 0; column < size; ++column)
@@ -64,4 +63,9 @@ void printAnswer(/*const*/ char puzzle[][50], size_t size)
         }
         puts("");
     }
+}
+
+void findWord(char puzzle[][50], char *word)
+{
+
 }
