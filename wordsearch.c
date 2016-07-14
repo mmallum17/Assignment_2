@@ -16,7 +16,8 @@ int checkLeftUp(int keep [][50], char puzzle[][50], char *word, size_t row, size
 int checkRightDown(int keep [][50], char puzzle[][50], char *word, size_t row, size_t column, size_t count, size_t size);
 int checkRightUp(int keep [][50], char puzzle[][50], char *word, size_t row, size_t column, size_t count, size_t size);
 
-int main(void) {
+int main(void)
+{
     char puzzle[50][50];
     size_t size;
     size_t row = 0;
