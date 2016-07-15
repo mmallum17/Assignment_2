@@ -46,7 +46,7 @@ int main(void)
     /* Read in Words */
     do
     {
-        word = fgets(word, size + 2, stdin);
+        word = fgets(word, sizeof(char) * (size + 2), stdin);
         if (word != NULL)
         {
 /*            printf("%s", word);*/
