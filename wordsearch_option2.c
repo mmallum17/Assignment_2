@@ -3,20 +3,22 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#define MAX_SIZE 50
 
-void printAnswer(int keep[][50], char puzzle[][50], size_t size);
-void findWord(int keep[][50], char puzzle[][50], char *word, size_t size);
-int checkSides(int keep[][50], char puzzle[][50], char *word, size_t size, size_t row, size_t column, size_t position, int deltaRow, int deltaColumn);
+void printAnswer(size_t size);
+void findWord(char *word, size_t size);
+int checkSides(char *word, size_t size, size_t row, size_t column, size_t position, int deltaRow, int deltaColumn);
+
+char puzzle[MAX_SIZE][MAX_SIZE];
+int keep[MAX_SIZE][MAX_SIZE] = {{0}};
 
 int main(void)
 {
-    char puzzle[50][50];
     size_t size;
     size_t row = 0;
     size_t column = 0;
     char letter;
     char *word;
-    int keep[50][50] = {{0}};
 
     /* Read in Word Search Grid */
     do
@@ -41,20 +43,21 @@ int main(void)
         word = fgets(word, sizeof(char) * (size + 2), stdin);
         if (word != NULL)
         {
-            findWord(keep, puzzle, word, size);
+            findWord(word, size);
         }
     }while(word != NULL);
 
     /* Print Solved Word Search */
-    printAnswer(keep, puzzle, size);
+    printAnswer(size);
 
     return 0;
 }
 
-void printAnswer(int keep [][50],/*const*/ char puzzle[][50], size_t size)
+void printAnswer(size_t size)
 {
     size_t row;
     size_t column;
+
     for(row = 0; row < size; ++row)
     {
         for (column = 0; column < size; ++column)
@@ -72,13 +75,14 @@ void printAnswer(int keep [][50],/*const*/ char puzzle[][50], size_t size)
     }
 }
 
-void findWord(int keep [][50], char puzzle[][50], char *word, size_t size)
+void findWord(char *word, size_t size)
 {
     size_t row;
     size_t column;
     size_t direction;
     int deltaRow;
     int deltaColumn;
+
     for(row = 0; row < size; ++row)
     {
         for (column = 0; column < size; ++column)
@@ -89,14 +93,14 @@ void findWord(int keep [][50], char puzzle[][50], char *word, size_t size)
                 deltaColumn = direction % 3 - 1;
                 if (deltaRow != 0 || deltaColumn != 0)
                 {
-                    checkSides(keep, puzzle, word, size, row, column, 0, deltaRow, deltaColumn);
+                    checkSides(word, size, row, column, 0, deltaRow, deltaColumn);
                 }
             }
         }
     }
 }
 
-int checkSides(int keep [][50], char puzzle[][50], char *word, size_t size, size_t row, size_t column, size_t position, int deltaRow, int deltaColumn)
+int checkSides(char *word, size_t size, size_t row, size_t column, size_t position, int deltaRow, int deltaColumn)
 {
     /* Word has been found */
     if(word[position] == '\n')
@@ -112,7 +116,7 @@ int checkSides(int keep [][50], char puzzle[][50], char *word, size_t size, size
     if(word[position] == puzzle[row][column])
     {
         /* Check going different sides */
-        if (checkSides(keep, puzzle, word, size, row + deltaRow, column + deltaColumn, position + 1, deltaRow, deltaColumn))
+        if (checkSides(word, size, row + deltaRow, column + deltaColumn, position + 1, deltaRow, deltaColumn))
         {
             keep[row][column] = 1;
             return 1;
