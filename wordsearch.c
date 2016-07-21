@@ -19,6 +19,7 @@ int main(void)
     size_t column = 0;
     char letter;
     char *word;
+    /*char word[MAX_SIZE]; --Option 2-- */
 
     /* Read in word search grid character by character */
     do
@@ -46,6 +47,10 @@ int main(void)
             findWord(word, size);
         }
     }while(word != NULL);
+    /*while(fgets(word, sizeof(char) * (size + 2), stdin) != NULL) --Option 2--
+    {
+        findWord(word, size);
+    }*/
 
     /* Print solved word search */
     printAnswer(size);
