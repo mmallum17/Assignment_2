@@ -20,7 +20,7 @@ int main(void)
     char letter;
     char *word;
 
-    /* Read in Word Search Grid */
+    /* Read in word search grid character by character */
     do
     {
         column = 0;
@@ -37,7 +37,7 @@ int main(void)
         row++;
     }while(row < size);
 
-    /* Read in Words */
+    /* Read in list of words line by line */
     do
     {
         word = fgets(word, sizeof(char) * (size + 2), stdin);
@@ -47,26 +47,29 @@ int main(void)
         }
     }while(word != NULL);
 
-    /* Print Solved Word Search */
+    /* Print solved word search */
     printAnswer(size);
 
     return 0;
 }
 
+/* Prints the solved word search */
 void printAnswer(size_t size)
 {
     size_t row;
     size_t column;
 
+    /* Loop through grid */
     for(row = 0; row < size; ++row)
     {
         for (column = 0; column < size; ++column)
         {
+            /* Part of solution */
             if(keep[row][column])
             {
                 printf("%c ", puzzle[row][column]);
             }
-            else
+            else /* Print a space */
             {
                 printf("%s", "  ");
             }
@@ -75,6 +78,7 @@ void printAnswer(size_t size)
     }
 }
 
+/* Finds the word in the word search */
 void findWord(char *word, size_t size)
 {
     size_t row;
@@ -83,10 +87,12 @@ void findWord(char *word, size_t size)
     int deltaRow;
     int deltaColumn;
 
+    /* Loop through the grid */
     for(row = 0; row < size; ++row)
     {
         for (column = 0; column < size; ++column)
         {
+            /* Check different directions */
             for (direction = 0; direction <= 8; ++direction)
             {
                 deltaRow = direction / 3 - 1;
@@ -100,6 +106,7 @@ void findWord(char *word, size_t size)
     }
 }
 
+/* Search for word going different directions */
 int checkSides(char *word, size_t size, size_t row, size_t column, size_t position, int deltaRow, int deltaColumn)
 {
     /* Word has been found */
@@ -115,7 +122,7 @@ int checkSides(char *word, size_t size, size_t row, size_t column, size_t positi
     /* Does letter in word = letter in puzzle */
     if(word[position] == puzzle[row][column])
     {
-        /* Check going different sides */
+        /* Check going different directions */
         if (checkSides(word, size, row + deltaRow, column + deltaColumn, position + 1, deltaRow, deltaColumn))
         {
             keep[row][column] = 1;
